@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+# Bloquear admin
+Disallow: /admin/
+
+# Sitemap
+Sitemap: https://clinicabella.com/sitemap.xml

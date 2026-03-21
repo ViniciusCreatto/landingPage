@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Painel Administrativo NexusTech">
+    <meta name="author" content="NexusTech">
+    
+    <title>Dashboard - Painel Admin | NexusTech</title>
+    
+    <!-- Preload critical resources -->
+    <link rel="preload" href="../assets/css/admin.css" as="style">
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="../assets/css/admin.css">
+    
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* Dashboard specific styles */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-card {
+            background: var(--bg-primary);
+            padding: 1.5rem;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-sm);
+            border-left: 4px solid var(--primary-color);
+            transition: var(--transition);
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .stat-card.success {
+            border-left-color: var(--secondary-color);
+        }
+        
+        .stat-card.warning {
+            border-left-color: var(--warning-color);
+        }
+        
+        .stat-card.info {
+            border-left-color: var(--info-color);
+        }
+        
+        .stat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .stat-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+        }
+        
+        .stat-card.primary .stat-icon {
+            background: rgba(37, 99, 235, 0.1);
+            color: var(--primary-color);
+        }
+        
+        .stat-card.success .stat-icon {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--secondary-color);
+        }
+        
+        .stat-card.warning .stat-icon {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--warning-color);
+        }
+        
+        .stat-card.info .stat-icon {
+            background: rgba(6, 182, 212, 0.1);
+            color: var(--info-color);
+        }
+        
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.25rem;
+        }
+        
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+        
+        .appointments-section {
+            background: var(--bg-primary);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-sm);
+            overflow: hidden;
+        }
+        
+        .section-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        
+        .appointments-list {
+            max-height: 500px;
+            overflow-y: auto;
+        }
+        
+        .appointment-item {
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid var(--border-light);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: var(--transition);
+        }
+        
+        .appointment-item:hover {
+            background: var(--bg-secondary);
+        }
+        
+        .appointment-item:last-child {
+            border-bottom: none;
+        }
+        
+        .appointment-info h4 {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.25rem;
+        }
+        
+        .appointment-info p {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            margin-bottom: 0.25rem;
+        }
+        
+        .appointment-info small {
+            color: var(--text-light);
+            font-size: 0.75rem;
+        }
+        
+        .appointment-time {
+            text-align: center;
+            margin: 0 1rem;
+        }
+        
+        .appointment-time strong {
+            display: block;
+            color: var(--text-primary);
+            font-size: 0.875rem;
+        }
+        
+        .appointment-time span {
+            color: var(--text-secondary);
+            font-size: 0.75rem;
+        }
+        
+        .appointment-status {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        
+        .status-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: var(--radius-sm);
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+        
+        .status-badge.confirmed {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--secondary-color);
+        }
+        
+        .status-badge.pending {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--warning-color);
+        }
+        
+        .appointment-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .btn-success {
+            background: var(--secondary-color);
+            color: white;
+        }
+        
+        .btn-success:hover {
+            background: var(--secondary-dark);
+        }
+        
+        .empty-state {
+            padding: 3rem;
+            text-align: center;
+            color: var(--text-secondary);
+        }
+        
+        .empty-state i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+        
+        @media (max-width: 768px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .appointment-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+            
+            .appointment-time {
+                margin: 0;
+                text-align: left;
+            }
+            
+            .appointment-status {
+                width: 100%;
+                justify-content: space-between;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-layout">
+        <!-- Sidebar -->
+        <aside class="admin-sidebar" id="sidebar">
+            <div class="admin-header">
+                <div class="admin-logo">
+                    <img src="../assets/images/logo.svg" alt="Logo NexusTech">
+                    <span>NexusTech</span>
+                </div>
+            </div>
+            
+            <nav class="admin-nav">
+                <a href="dashboard.html" class="admin-nav-item active">
+                    <i class="fas fa-home"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="calendar.html" class="admin-nav-item">
+                    <i class="fas fa-calendar"></i>
+                    <span>Calendário</span>
+                </a>
+                <a href="content.html" class="admin-nav-item">
+                    <i class="fas fa-edit"></i>
+                    <span>Conteúdo</span>
+                </a>
+                <a href="users.html" class="admin-nav-item">
+                    <i class="fas fa-users"></i>
+                    <span>Usuários</span>
+                </a>
+                <a href="#" class="admin-nav-item">
+                    <i class="fas fa-cog"></i>
+                    <span>Configurações</span>
+                </a>
+            </nav>
+        </aside>
+        
+        <!-- Main Content -->
+        <main class="admin-main">
+            <!-- Topbar -->
+            <header class="admin-topbar">
+                <div class="d-flex align-items-center">
+                    <button class="btn btn-outline" id="sidebar-toggle">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <h1 class="ml-3 mb-0">Dashboard</h1>
+                </div>
+                
+                <div class="d-flex align-items-center">
+                    <button class="btn btn-outline" id="notifications-btn">
+                        <i class="fas fa-bell"></i>
+                        <span class="badge">3</span>
+                    </button>
+                    
+                    <div class="dropdown" style="position: relative;">
+                        <button class="btn btn-outline" id="user-menu-btn">
+                            <i class="fas fa-user"></i>
+                            <span>Admin</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        
+                        <div class="dropdown-menu" id="user-menu" style="
+                            position: absolute;
+                            right: 0;
+                            top: 100%;
+                            background: white;
+                            border-radius: 8px;
+                            box-shadow: var(--shadow-lg);
+                            min-width: 200px;
+                            display: none;
+                            z-index: 1000;
+                        ">
+                            <a href="#" class="dropdown-item" style="
+                                display: block;
+                                padding: 0.75rem 1rem;
+                                color: var(--text-primary);
+                                text-decoration: none;
+                                transition: var(--transition);
+                            " onmouseover="this.style.background='var(--bg-secondary)'" onmouseout="this.style.background='white'">
+                                <i class="fas fa-user"></i> Meu Perfil
+                            </a>
+                            <a href="#" class="dropdown-item" style="
+                                display: block;
+                                padding: 0.75rem 1rem;
+                                color: var(--text-primary);
+                                text-decoration: none;
+                                transition: var(--transition);
+                            " onmouseover="this.style.background='var(--bg-secondary)'" onmouseout="this.style.background='white'">
+                                <i class="fas fa-cog"></i> Configurações
+                            </a>
+                            <hr style="margin: 0.5rem 0; border: none; border-top: 1px solid var(--border-color);">
+                            <button class="btn btn-danger btn-sm" id="logout-btn" style="
+                                width: calc(100% - 2rem);
+                                margin: 0.5rem 1rem;
+                            ">
+                                <i class="fas fa-sign-out-alt"></i> Sair
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </header>
+            
+            <!-- Content -->
+            <div class="admin-content">
+                <!-- Stats Cards -->
+                <div class="stats-grid">
+                    <div class="stat-card primary">
+                        <div class="stat-header">
+                            <div>
+                                <div class="stat-value" id="total-appointments">0</div>
+                                <div class="stat-label">Total de Agendamentos</div>
+                            </div>
+                            <div class="stat-icon">
+                                <i class="fas fa-calendar-check"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card warning">
+                        <div class="stat-header">
+                            <div>
+                                <div class="stat-value" id="pending-appointments">0</div>
+                                <div class="stat-label">Pendentes</div>
+                            </div>
+                            <div class="stat-icon">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card success">
+                        <div class="stat-header">
+                            <div>
+                                <div class="stat-value" id="confirmed-appointments">0</div>
+                                <div class="stat-label">Confirmados</div>
+                            </div>
+                            <div class="stat-icon">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card info">
+                        <div class="stat-header">
+                            <div>
+                                <div class="stat-value" id="new-users">0</div>
+                                <div class="stat-label">Novos Usuários</div>
+                            </div>
+                            <div class="stat-icon">
+                                <i class="fas fa-user-plus"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Recent Appointments -->
+                <section class="appointments-section">
+                    <div class="section-header">
+                        <h2 class="section-title">Agendamentos Recentes</h2>
+                        <a href="calendar.html" class="btn btn-outline btn-sm">
+                            <i class="fas fa-calendar"></i> Ver Calendário
+                        </a>
+                    </div>
+                    
+                    <div class="appointments-list" id="appointments-list">
+                        <!-- Appointments will be loaded here -->
+                        <div class="empty-state">
+                            <i class="fas fa-calendar-times"></i>
+                            <p>Carregando agendamentos...</p>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+    
+    <!-- Scripts -->
+    <script src="../assets/js/admin.js"></script>
+</body>
+</html>

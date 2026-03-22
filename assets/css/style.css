@@ -260,6 +260,11 @@ ul { list-style: none; }
 .nav__link:hover { color: var(--primary); }
 .nav__link:hover::after { width: 60%; }
 
+.nav__link:focus {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
 .nav__link.active-link {
   color: var(--primary);
 }
@@ -642,30 +647,6 @@ ul { list-style: none; }
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 28px;
-  max-width: 900px;
-  margin: 0 auto;
-}
-
-.course-card {
-  background: var(--white);
-  border-radius: var(--radius-lg);
-  padding: 36px 32px;
-  box-shadow: var(--shadow-sm);
-  transition: var(--transition);
-  display: flex;
-  flex-direction: column;
-  position: relative;
-  border: 1px solid rgba(201,169,110,.15);
-}
-/* ============================================================
-   COURSES SECTION
-   ============================================================ */
-.courses-section { padding: 80px 0; }
-
-.courses-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 28px;
 }
 
 .course-card {
@@ -880,6 +861,8 @@ ul { list-style: none; }
   border-color: var(--primary);
   background: var(--white);
   box-shadow: 0 0 0 3px rgba(201,169,110,.15);
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
 }
 .form-control::placeholder { color: var(--text-muted); }
 
@@ -917,7 +900,12 @@ select.form-control {
 .btn--primary:hover {
   background: var(--primary-dark);
   transform: translateY(-2px);
-  box-shadow: 0 4px 16px rgba(201,169,110,.4);
+  box-shadow: 0 4px 16px rg
+
+.btn:focus {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}ba(201,169,110,.4);
 }
 .btn--full { width: 100%; }
 
@@ -955,7 +943,7 @@ select.form-control {
   font-size: .88rem;
   line-height: 1.7;
   margin-bottom: 24px;
-  color: rgba(255,255,255,.55);
+  color: rgba(255,255,255,.75);
 }
 
 .footer__social {
@@ -989,7 +977,7 @@ select.form-control {
 .footer__links li { margin-bottom: 10px; }
 .footer__links a {
   font-size: .88rem;
-  color: rgba(255,255,255,.55);
+  color: rgba(255,255,255,.75);
   transition: var(--transition);
   display: inline-flex;
   align-items: center;
@@ -1008,7 +996,7 @@ select.form-control {
   align-items: flex-start;
   gap: 10px;
   font-size: .88rem;
-  color: rgba(255,255,255,.55);
+  color: rgba(255,255,255,.75);
   margin-bottom: 12px;
 }
 .footer__contact li i {

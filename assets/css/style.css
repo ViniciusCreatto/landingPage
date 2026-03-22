@@ -100,6 +100,23 @@ ul { list-style: none; }
   background: linear-gradient(115deg, #fffaf6 0%, #fcf6ef 100%);
 }
 
+.about-section .section__header {
+  text-align: left;
+  max-width: 720px;
+  margin: 0 0 40px;
+}
+
+.about-section .section__title {
+  font-size: clamp(2rem, 3vw, 2.5rem);
+  color: var(--dark-2);
+}
+
+.about-section .section__subtitle {
+  color: var(--dark);
+  font-size: 1rem;
+  max-width: 680px;
+}
+
 .about-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));

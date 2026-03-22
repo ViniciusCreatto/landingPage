@@ -117,6 +117,21 @@ ul { list-style: none; }
   align-items: center;
 }
 
+.about-text {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  padding: 32px 28px;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid rgba(201,169,110,.15);
+  transition: var(--transition);
+}
+
+.about-text:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--primary-light);
+}
+
 .about-text h3 {
   margin-top: 0;
   margin-bottom: 1rem;
@@ -141,17 +156,17 @@ ul { list-style: none; }
 }
 
 .about-images {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  display: flex;
+  flex-direction: column;
   gap: 16px;
 }
 
 .about-images img {
   width: 100%;
-  max-height: 270px;
+  max-height: 400px;
   object-fit: cover;
   border-radius: var(--radius-md);
-  box-shadow: var(--shadow-sm);
+  box-shadow: var(--shadow-md);
 }
 
 .skip-link {

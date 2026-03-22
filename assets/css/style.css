@@ -96,6 +96,54 @@ ul { list-style: none; }
   margin: 0 auto;
 }
 
+.about-section {
+  background: linear-gradient(115deg, #fffaf6 0%, #fcf6ef 100%);
+}
+
+.about-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 32px;
+  align-items: center;
+}
+
+.about-text h3 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  color: var(--dark);
+  font-size: 1.35rem;
+}
+
+.about-text p {
+  margin-bottom: 1rem;
+  color: var(--text);
+  line-height: 1.8;
+}
+
+.about-text ul {
+  margin-top: 1rem;
+  list-style: disc inside;
+  color: var(--text);
+}
+
+.about-text ul li {
+  margin-bottom: 0.5rem;
+}
+
+.about-images {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.about-images img {
+  width: 100%;
+  max-height: 270px;
+  object-fit: cover;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+}
+
 .skip-link {
   position: absolute;
   top: -999px;

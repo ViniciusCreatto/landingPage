@@ -365,7 +365,8 @@
         }
       });
       
-      if (!privacyCheckbox.checked) {
+      // Verificar checkbox privacy apenas se existir
+      if (privacyCheckbox && !privacyCheckbox.checked) {
         allValid = false;
       }
       
@@ -386,7 +387,7 @@
         }
       });
       
-      if (!privacyCheckbox.checked) {
+      if (privacyCheckbox && !privacyCheckbox.checked) {
         this.validateField(privacyCheckbox);
         isFormValid = false;
       }

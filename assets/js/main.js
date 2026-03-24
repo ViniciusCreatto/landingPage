@@ -236,12 +236,14 @@
         });
       });
       
-      // Checkbox validation
+      // Checkbox validation (se existir)
       const privacyCheckbox = this.form.querySelector('#privacy');
-      privacyCheckbox.addEventListener('change', () => {
-        this.validateField(privacyCheckbox);
-        this.updateSubmitButton();
-      });
+      if (privacyCheckbox) {
+        privacyCheckbox.addEventListener('change', () => {
+          this.validateField(privacyCheckbox);
+          this.updateSubmitButton();
+        });
+      }
       
       // Initialize submit button state
       this.updateSubmitButton();

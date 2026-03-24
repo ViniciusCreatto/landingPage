@@ -3,8 +3,6 @@
 // ============================================================
 
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('Cookie banner script loaded');
-    
     const privacyPopup = document.getElementById('privacyPopup');
     const privacyClose = document.getElementById('privacyClose');
     const privacyAccept = document.getElementById('privacyAccept');
@@ -15,26 +13,21 @@ document.addEventListener('DOMContentLoaded', function() {
     // Verificar se usuário já aceitou os cookies
     const cookiesAccepted = localStorage.getItem('cookiesAccepted');
     
-    console.log('Cookies accepted:', cookiesAccepted);
-    
     // Mostrar banner se ainda não foi aceito
     if (!cookiesAccepted) {
         setTimeout(() => {
             privacyPopup.classList.add('active');
-            console.log('Cookie banner shown');
         }, 1000); // Mostra após 1 segundo
     }
     
     // Função para aceitar cookies
     function acceptCookies() {
-        console.log('Accepting cookies');
         localStorage.setItem('cookiesAccepted', 'true');
         privacyPopup.classList.remove('active');
     }
     
     // Função para abrir popup completo
     function openFullPopup() {
-        console.log('Opening full privacy popup');
         privacyPopup.classList.add('full-popup');
         
         // Foco no título para acessibilidade
@@ -46,7 +39,6 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Função para fechar popup completo
     function closeFullPopup() {
-        console.log('Closing full privacy popup');
         privacyPopup.classList.remove('full-popup');
     }
     

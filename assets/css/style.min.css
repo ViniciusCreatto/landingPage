@@ -331,7 +331,7 @@ align-items: flex-start;
 }
 
 .hero-mobile__fulltext{max-width: 760px;margin: 0 auto;text-align: center;}
-.hero-mobile__description{font-size: 1.05rem;line-height: 1.8;color: var(--text-muted);margin-top: 18px;margin-bottom: 24px;}
+.hero-mobile__description{font-size: 1.05rem;line-height: 1.8;color: var(--text-muted);margin-top: 18px;margin-bottom: 24px;}.image-alt-placeholder{display:inline-block;background:rgba(0,0,0,0.05);color:var(--text-muted);border:1px dashed var(--text-muted);border-radius:6px;font-size:.9rem;padding:10px 12px;margin-bottom:10px;}
 
 .hero-mobile__title{
 font-family: var(--font-display);

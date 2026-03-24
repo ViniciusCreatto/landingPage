@@ -344,6 +344,17 @@ ul { list-style: none; }
   margin-bottom: 24px;
 }
 
+.image-alt-placeholder {
+  display: inline-block;
+  background: rgba(0, 0, 0, 0.05);
+  color: var(--text-muted);
+  border: 1px dashed var(--text-muted);
+  border-radius: 6px;
+  font-size: 0.9rem;
+  padding: 10px 12px;
+  margin-bottom: 10px;
+}
+
 .hero-mobile__title {
   font-family: var(--font-display);
   font-size: clamp(2rem, 4vw, 3.2rem);

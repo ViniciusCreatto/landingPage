@@ -196,4 +196,257 @@
     new BACarousel(carousel);
   });
 
+  /* ----------------------------------------------------------  
+     6. CONTACT FORM HANDLING
+     ---------------------------------------------------------- */
+  class ContactForm {
+    constructor(formElement) {
+      this.form = formElement;
+      this.submitBtn = this.form.querySelector('.btn-submit');
+      this.btnText = this.submitBtn.querySelector('.btn-text');
+      this.btnLoading = this.submitBtn.querySelector('.btn-loading');
+      this.messageDiv = document.getElementById('form-message');
+      this.charCount = document.getElementById('char-count');
+      this.charCounter = document.querySelector('.char-counter');
+      
+      this.init();
+    }
+
+    init() {
+      this.form.addEventListener('submit', (e) => this.handleSubmit(e));
+      
+      // Phone mask
+      const phoneInput = this.form.querySelector('#phone');
+      phoneInput.addEventListener('input', (e) => this.applyPhoneMask(e.target));
+      phoneInput.addEventListener('focus', (e) => {
+        if (!e.target.value) e.target.value = '(';
+      });
+      
+      // Character counter for textarea
+      const messageTextarea = this.form.querySelector('#message');
+      messageTextarea.addEventListener('input', (e) => this.updateCharCount(e.target));
+      
+      // Real-time validation
+      const inputs = this.form.querySelectorAll('input, textarea, select');
+      inputs.forEach(input => {
+        input.addEventListener('blur', () => this.validateField(input));
+        input.addEventListener('input', () => {
+          this.clearFieldError(input);
+          this.updateSubmitButton();
+        });
+      });
+      
+      // Checkbox validation
+      const privacyCheckbox = this.form.querySelector('#privacy');
+      privacyCheckbox.addEventListener('change', () => {
+        this.validateField(privacyCheckbox);
+        this.updateSubmitButton();
+      });
+      
+      // Initialize submit button state
+      this.updateSubmitButton();
+    }
+
+    applyPhoneMask(input) {
+      let value = input.value.replace(/\D/g, '');
+      
+      if (value.length <= 11) {
+        if (value.length <= 2) {
+          value = value.replace(/(\d{0,2})/, '($1');
+        } else if (value.length <= 6) {
+          value = value.replace(/(\d{2})(\d{0,4})/, '($1) $2');
+        } else if (value.length <= 10) {
+          value = value.replace(/(\d{2})(\d{4})(\d{0,4})/, '($1) $2-$3');
+        } else {
+          value = value.replace(/(\d{2})(\d{5})(\d{0,4})/, '($1) $2-$3');
+        }
+      }
+      
+      input.value = value;
+    }
+
+    updateCharCount(textarea) {
+      const count = textarea.value.length;
+      this.charCount.textContent = count;
+      
+      if (count > 450) {
+        this.charCounter.classList.add('warning');
+      } else {
+        this.charCounter.classList.remove('warning');
+      }
+    }
+
+    validateField(field) {
+      const value = field.value.trim();
+      const errorElement = document.getElementById(`${field.id}-error`);
+      
+      if (!errorElement) return;
+      
+      let isValid = true;
+      let errorMessage = '';
+      
+      switch (field.id) {
+        case 'name':
+          if (!value) {
+            isValid = false;
+            errorMessage = 'Nome é obrigatório';
+          } else if (value.length < 2) {
+            isValid = false;
+            errorMessage = 'Nome deve ter pelo menos 2 caracteres';
+          } else if (!/^[a-zA-ZÀ-ÿ\s]+$/.test(value)) {
+            isValid = false;
+            errorMessage = 'Nome deve conter apenas letras e espaços';
+          }
+          break;
+          
+        case 'email':
+          const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+          if (!value) {
+            isValid = false;
+            errorMessage = 'E-mail é obrigatório';
+          } else if (!emailRegex.test(value)) {
+            isValid = false;
+            errorMessage = 'E-mail inválido';
+          }
+          break;
+          
+        case 'phone':
+          const cleanPhone = value.replace(/\D/g, '');
+          if (!value) {
+            isValid = false;
+            errorMessage = 'Telefone é obrigatório';
+          } else if (cleanPhone.length < 10 || cleanPhone.length > 11) {
+            isValid = false;
+            errorMessage = 'Telefone deve ter 10 ou 11 dígitos';
+          }
+          break;
+          
+        case 'privacy':
+          if (!field.checked) {
+            isValid = false;
+            errorMessage = 'Você deve aceitar a Política de Privacidade';
+          }
+          break;
+      }
+      
+      if (!isValid) {
+        errorElement.textContent = errorMessage;
+        field.setAttribute('aria-invalid', 'true');
+        field.classList.add('error');
+      } else {
+        errorElement.textContent = '';
+        field.setAttribute('aria-invalid', 'false');
+        field.classList.remove('error');
+      }
+      
+      return isValid;
+    }
+
+    clearFieldError(field) {
+      const errorElement = document.getElementById(`${field.id}-error`);
+      if (errorElement) {
+        errorElement.textContent = '';
+        field.setAttribute('aria-invalid', 'false');
+        field.classList.remove('error');
+      }
+    }
+
+    updateSubmitButton() {
+      const requiredFields = this.form.querySelectorAll('input[required], textarea[required], select[required]');
+      const privacyCheckbox = this.form.querySelector('#privacy');
+      
+      let allValid = true;
+      
+      requiredFields.forEach(field => {
+        if (!this.validateField(field)) {
+          allValid = false;
+        }
+      });
+      
+      if (!privacyCheckbox.checked) {
+        allValid = false;
+      }
+      
+      this.submitBtn.disabled = !allValid;
+    }
+
+    async handleSubmit(e) {
+      e.preventDefault();
+      
+      // Final validation
+      const inputs = this.form.querySelectorAll('input[required], textarea[required], select[required]');
+      const privacyCheckbox = this.form.querySelector('#privacy');
+      let isFormValid = true;
+      
+      inputs.forEach(input => {
+        if (!this.validateField(input)) {
+          isFormValid = false;
+        }
+      });
+      
+      if (!privacyCheckbox.checked) {
+        this.validateField(privacyCheckbox);
+        isFormValid = false;
+      }
+      
+      if (!isFormValid) {
+        this.showMessage('Por favor, corrija os erros no formulário.', 'error');
+        return;
+      }
+      
+      // Show loading state
+      this.setLoading(true);
+      
+      try {
+        // Simulate form submission (replace with actual API call)
+        const formData = new FormData(this.form);
+        const data = Object.fromEntries(formData.entries());
+        
+        // Simulate API delay
+        await new Promise(resolve => setTimeout(resolve, 2000));
+        
+        // Simulate success (replace with actual response handling)
+        this.showMessage('Mensagem enviada com sucesso! Entraremos em contato em breve.', 'success');
+        this.form.reset();
+        this.charCount.textContent = '0';
+        this.charCounter.classList.remove('warning');
+        this.updateSubmitButton();
+        
+      } catch (error) {
+        this.showMessage('Erro ao enviar mensagem. Tente novamente.', 'error');
+      } finally {
+        this.setLoading(false);
+      }
+    }
+
+    setLoading(isLoading) {
+      this.submitBtn.disabled = isLoading;
+      
+      if (isLoading) {
+        this.btnText.style.display = 'none';
+        this.btnLoading.style.display = 'block';
+      } else {
+        this.btnText.style.display = 'block';
+        this.btnLoading.style.display = 'none';
+      }
+    }
+
+    showMessage(message, type) {
+      this.messageDiv.textContent = message;
+      this.messageDiv.className = `form-message ${type}`;
+      this.messageDiv.style.display = 'block';
+      
+      // Auto-hide after 5 seconds
+      setTimeout(() => {
+        this.messageDiv.style.display = 'none';
+      }, 5000);
+    }
+  }
+
+  // Initialize contact form
+  const contactForm = document.getElementById('contactForm');
+  if (contactForm) {
+    new ContactForm(contactForm);
+  }
+
 })();

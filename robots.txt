@@ -5,4 +5,4 @@ Allow: /
 Disallow: /admin/
 
 # Sitemap
-Sitemap: https://clinicabella.com/sitemap.xml
+Sitemap: https://estudiopro.com/sitemap.xml

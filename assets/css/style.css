@@ -842,7 +842,7 @@ ul { list-style: none; }
 }
 .contact__item p {
   font-size: .9rem;
-  color: rgba(255,255,255,.7);
+  color: rgba(255,255,255,.8);
   line-height: 1.6;
 }
 
@@ -917,7 +917,8 @@ select.form-control {
   align-items: center;
   justify-content: center;
   gap: 8px;
-  padding: 13px 28px;
+  min-width: 44px;
+  min-height: 44px;
   border: none;
   border-radius: var(--radius-md);
   font-family: var(--font-body);
@@ -1047,7 +1048,7 @@ select.form-control {
   justify-content: space-between;
   gap: 16px;
 }
-.footer__bottom p { font-size: .82rem; color: rgba(255,255,255,.4); }
+.footer__bottom p { font-size: .82rem; color: rgba(255,255,255,.8); }
 
 .footer__legal {
   display: flex;
@@ -1055,7 +1056,7 @@ select.form-control {
 }
 .footer__legal a {
   font-size: .82rem;
-  color: rgba(255,255,255,.4);
+  color: rgba(255,255,255,.8);
   transition: var(--transition);
 }
 .footer__legal a:hover { color: var(--primary); }
@@ -1377,7 +1378,7 @@ select.form-control {
   background: rgba(255,255,255,.9);
   border: none;
   border-radius: 50%;
-  width: 40px; height: 40px;
+  width: 44px; height: 44px;
   display: flex; align-items: center; justify-content: center;
   cursor: pointer;
   font-size: .85rem;
@@ -1787,7 +1788,7 @@ textarea.form-control {
   width: 100%;
   background: var(--primary);
   color: var(--white);
-  border: none;
+  min-height: 44px;
   padding: 1rem 2rem;
   border-radius: var(--radius-sm);
   font-size: 1.125rem;

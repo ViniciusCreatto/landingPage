@@ -47,7 +47,7 @@ body {
 }
 
 img { max-width: 100%; height: auto; display: block; }
-a  { text-decoration: none; color: inherit; }
+a { text-decoration: underline; color: inherit; }
 ul { list-style: none; }
 
 /* Usando fontes do sistema para melhor performance no Lighthouse */
@@ -899,7 +899,7 @@ ul { list-style: none; }
   outline: 2px solid var(--primary);
   outline-offset: 2px;
 }
-.form-control::placeholder { color: var(--text-muted); }
+.form-control::placeholder { color: #666; }
 
 textarea.form-control { resize: vertical; min-height: 120px; }
 
@@ -935,12 +935,11 @@ select.form-control {
 .btn--primary:hover {
   background: var(--primary-dark);
   transform: translateY(-2px);
-  box-shadow: 0 4px 16px rg
-
+  box-shadow: 0 4px 16px rgba(201,169,110,0.4);
+}
 .btn:focus {
   outline: 2px solid var(--primary);
   outline-offset: 2px;
-}ba(201,169,110,.4);
 }
 .btn--full { width: 100%; }
 

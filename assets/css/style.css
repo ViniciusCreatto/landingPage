@@ -1262,6 +1262,10 @@ select.form-control {
     gap: 36px;
   }
   .about__avatar { max-width: 260px; margin: 0 auto; }
+  .about-grid {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
 
   /* Services */
   .services-section { padding: 56px 0; }
@@ -1290,6 +1294,10 @@ select.form-control {
   .hero-mobile__cta { width: 100%; justify-content: center; }
   .section { padding: 56px 0; }
   .service-card { padding: 24px 20px; }
+  .about-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
 }
 /* ============================================================
    PORTFOLIO CAROUSEL

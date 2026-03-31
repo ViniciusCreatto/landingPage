@@ -79,7 +79,22 @@
 
   // Fecha ao clicar em um link do menu
   navMenu?.querySelectorAll('.nav__link').forEach(link => {
-    link.addEventListener('click', closeMenu);
+    link.addEventListener('click', function(e) {
+      const href = this.getAttribute('href');
+      
+      // Se for link âncora (#), faz smooth scroll e fecha menu
+      if (href.startsWith('#')) {
+        e.preventDefault();
+        const target = document.querySelector(href);
+        if (target) {
+          closeMenu(); // Fecha menu mobile
+          target.scrollIntoView({ behavior: 'smooth' });
+        }
+      } else {
+        // Se for link normal, apenas fecha o menu
+        closeMenu();
+      }
+    });
   });
 
   // Fecha com ESC

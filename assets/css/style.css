@@ -291,6 +291,66 @@ ul { list-style: none; }
 }
 .nav__toggle:hover { color: var(--primary); }
 
+/* Hamburger Menu Melhorado */
+.hamburger {
+  display: block;
+  width: 24px;
+  height: 20px;
+  position: relative;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.hamburger::before,
+.hamburger::after,
+.hamburger span {
+  content: '';
+  display: block;
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: var(--dark);
+  border-radius: 2px;
+  transition: var(--transition);
+  transform-origin: center;
+}
+
+.hamburger span {
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.hamburger::before {
+  top: 0;
+}
+
+.hamburger::after {
+  bottom: 0;
+}
+
+/* Animação do hambúrguer para X */
+.nav__toggle[aria-expanded="true"] .hamburger span {
+  opacity: 0;
+  transform: translateY(-50%) scale(0);
+}
+
+.nav__toggle[aria-expanded="true"] .hamburger::before {
+  top: 50%;
+  transform: translateY(-50%) rotate(45deg);
+}
+
+.nav__toggle[aria-expanded="true"] .hamburger::after {
+  bottom: 50%;
+  transform: translateY(50%) rotate(-45deg);
+}
+
+.nav__toggle:hover { 
+  background: rgba(201, 169, 110, 0.1);
+  border-radius: 8px;
+}
+
 .nav__close {
   display: none;
   position: absolute;
@@ -301,6 +361,15 @@ ul { list-style: none; }
   transition: var(--transition);
 }
 .nav__close:hover { color: var(--primary); }
+
+/* Garantir que menu fique acima do overlay */
+.nav__toggle {
+  z-index: 1002;
+}
+
+.nav__close {
+  z-index: 1002;
+}
 
 /* ============================================================
    HERO (hero-mobile = hero principal de cada página)
@@ -1179,7 +1248,8 @@ select.form-control {
   .nav__overlay {
     position: fixed;
     inset: 0;
-    background: rgba(0,0,0,.4);
+    background: rgba(0,0,0,0.25);
+    backdrop-filter: blur(2px);
     z-index: 1000;
     opacity: 0;
     visibility: hidden;
@@ -1238,7 +1308,8 @@ select.form-control {
   .nav__overlay {
     position: fixed;
     inset: 0;
-    background: rgba(0,0,0,.4);
+    background: rgba(0,0,0,0.25);
+    backdrop-filter: blur(2px);
     z-index: 1000;
     opacity: 0;
     visibility: hidden;

@@ -284,12 +284,21 @@ ul { list-style: none; }
 .nav__toggle {
   display: none;
   cursor: pointer;
-  font-size: 1.4rem;
-  color: var(--dark);
   padding: 6px;
   transition: var(--transition);
+  z-index: 1006;
+  background: transparent;
+  border: none;
 }
-.nav__toggle:hover { color: var(--primary); }
+
+/* Garantir que o toggle seja visível apenas em mobile */
+@media (max-width: 1024px) {
+  .nav__toggle { 
+    display: flex; 
+    align-items: center;
+    justify-content: center;
+  }
+}
 
 /* Hamburger Menu Melhorado */
 .hamburger {
@@ -311,7 +320,7 @@ ul { list-style: none; }
   left: 0;
   width: 100%;
   height: 3px;
-  background: var(--dark);
+  background: var(--primary);
   border-radius: 2px;
   transition: var(--transition);
   transform-origin: center;
@@ -347,28 +356,48 @@ ul { list-style: none; }
 }
 
 .nav__toggle:hover { 
-  background: rgba(201, 169, 110, 0.1);
-  border-radius: 8px;
+  transform: scale(1.05);
 }
 
 .nav__close {
   display: none;
   position: absolute;
-  top: 20px; right: 24px;
+  top: 20px;
+  right: 24px;
   font-size: 1.4rem;
   cursor: pointer;
-  color: var(--dark);
   transition: var(--transition);
+  background: transparent;
+  border: none;
+  padding: 8px;
+  z-index: 1006;
+  outline: none;
+  box-shadow: none;
 }
-.nav__close:hover { color: var(--primary); }
 
-/* Garantir que menu fique acima do overlay */
-.nav__toggle {
-  z-index: 1002;
+.nav__close svg {
+  width: 24px;
+  height: 24px;
+  stroke: var(--dark) !important;
+  transition: var(--transition);
+  color: transparent !important;
+  fill: none !important;
+  filter: none !important;
 }
 
-.nav__close {
-  z-index: 1002;
+/* Garantir que não haja pseudo-elementos no botão */
+.nav__close::before,
+.nav__close::after {
+  display: none !important;
+}
+
+.nav__close:hover svg {
+  stroke: var(--primary) !important;
+}
+
+.nav__close:hover { 
+  outline: none;
+  box-shadow: none;
 }
 
 /* ============================================================
@@ -1248,14 +1277,23 @@ select.form-control {
   .nav__overlay {
     position: fixed;
     inset: 0;
-    background: rgba(0,0,0,0.25);
-    backdrop-filter: blur(2px);
-    z-index: 1000;
+    background: rgba(0,0,0,0);
+    z-index: 999;
     opacity: 0;
     visibility: hidden;
     transition: var(--transition);
+    pointer-events: none;
   }
-  .nav__overlay.open { opacity: 1; visibility: visible; }
+  .nav__overlay.open { 
+    opacity: 1; 
+    visibility: visible;
+  }
+  
+  /* Blur no conteúdo quando menu está aberto via classe no body */
+  body.menu-open > *:not(.header):not(.nav__menu):not(.nav__toggle):not(.nav__close):not(.nav__overlay) {
+    filter: blur(8px);
+    -webkit-filter: blur(8px);
+  }
 }
 
 /* ============================================================
@@ -1274,7 +1312,7 @@ select.form-control {
     padding: 80px 32px 40px;
     flex-direction: column;
     align-items: flex-start;
-    z-index: 1001;
+    z-index: 1005;
     transition: right .35s ease;
     display: flex;
   }
@@ -1308,14 +1346,23 @@ select.form-control {
   .nav__overlay {
     position: fixed;
     inset: 0;
-    background: rgba(0,0,0,0.25);
-    backdrop-filter: blur(2px);
-    z-index: 1000;
+    background: rgba(0,0,0,0);
+    z-index: 999;
     opacity: 0;
     visibility: hidden;
     transition: var(--transition);
+    pointer-events: none;
   }
-  .nav__overlay.open { opacity: 1; visibility: visible; }
+  .nav__overlay.open { 
+    opacity: 1; 
+    visibility: visible;
+  }
+  
+  /* Blur no conteúdo quando menu está aberto via classe no body */
+  body.menu-open > *:not(.header):not(.nav__menu):not(.nav__toggle):not(.nav__close):not(.nav__overlay) {
+    filter: blur(8px);
+    -webkit-filter: blur(8px);
+  }
 
   /* Hero */
   .hero-mobile {

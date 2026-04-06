@@ -49,7 +49,6 @@
      ---------------------------------------------------------- */
   const navMenu   = document.getElementById('nav-menu');
   const navToggle = document.getElementById('nav-toggle');
-  const navClose  = document.getElementById('nav-close');
 
   // Cria overlay dinamicamente
   let overlay = document.querySelector('.nav__overlay');
@@ -59,9 +58,23 @@
     document.body.appendChild(overlay);
   }
 
+  // Cria botão de fechar apenas uma vez - fora de qualquer função
+  let navClose = document.getElementById('nav-close');
+  if (!navClose) {
+    // Remove qualquer botão de fechar existente para evitar duplicação
+    navMenu.querySelectorAll('.nav__close').forEach(btn => btn.remove());
+    
+    navClose = document.createElement('button');
+    navClose.className = 'nav__close';
+    navClose.id = 'nav-close';
+    navClose.setAttribute('aria-label', 'Fechar menu');
+    navMenu.appendChild(navClose);
+  }
+
   function openMenu() {
     navMenu?.classList.add('open');
     overlay.classList.add('open');
+    document.body.classList.add('menu-open');
     document.body.style.overflow = 'hidden';
     navToggle?.setAttribute('aria-expanded', 'true');
   }
@@ -69,6 +82,7 @@
   function closeMenu() {
     navMenu?.classList.remove('open');
     overlay.classList.remove('open');
+    document.body.classList.remove('menu-open');
     document.body.style.overflow = '';
     navToggle?.setAttribute('aria-expanded', 'false');
   }
@@ -88,7 +102,16 @@
         const target = document.querySelector(href);
         if (target) {
           closeMenu(); // Fecha menu mobile
-          target.scrollIntoView({ behavior: 'smooth' });
+          
+          // Aguarda um pouco para o menu fechar antes de rolar
+          setTimeout(() => {
+            const offset = parseInt(getComputedStyle(document.documentElement)
+              .getPropertyValue('--header-h')) || 72;
+            window.scrollTo({
+              top: target.getBoundingClientRect().top + window.scrollY - offset,
+              behavior: 'smooth'
+            });
+          }, 300);
         }
       } else {
         // Se for link normal, apenas fecha o menu
@@ -108,21 +131,6 @@
      ---------------------------------------------------------- */
   document.getElementById('back-to-top')?.addEventListener('click', () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
-  });
-
-  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-      const target = document.querySelector(this.getAttribute('href'));
-      if (target) {
-        e.preventDefault();
-        const offset = parseInt(getComputedStyle(document.documentElement)
-          .getPropertyValue('--header-h')) || 72;
-        window.scrollTo({
-          top: target.getBoundingClientRect().top + window.scrollY - offset,
-          behavior: 'smooth'
-        });
-      }
-    });
   });
 
   /* ----------------------------------------------------------

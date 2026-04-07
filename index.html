@@ -27,12 +27,31 @@
     
     <!-- Preload critical resources -->
     <link rel="preload" href="./assets/css/style.css" as="style">
+    <link rel="preload" href="./assets/css/accessibility.css" as="style">
+    <link rel="preload" href="./assets/css/privacy-popup.css" as="style">
     <link rel="preload" href="./assets/js/main.js" as="script">
     
-    <!-- Stylesheets -->
-    <link rel="stylesheet" href="./assets/css/style.css">
-    <link rel="stylesheet" href="./assets/css/accessibility.css">
-    <link rel="stylesheet" href="./assets/css/privacy-popup.css">
+    <!-- Preload critical images -->
+    <link rel="preload" href="./assets/images/consultoria.webp" as="image" type="image/webp">
+    <link rel="preload" href="./assets/images/sobre.webp" as="image" type="image/webp">
+    <link rel="preload" href="./assets/images/curso-1.webp" as="image" type="image/webp">
+    
+    <!-- Critical CSS inline -->
+    <style>
+        /* Critical CSS para renderização inicial */
+        body{margin:0;font-family:var(--body-font);line-height:1.6}
+        .container{max-width:1200px;margin:0 auto;padding:0 20px}
+        .header{position:fixed;top:0;left:0;width:100%;z-index:100;background:var(--white)}
+        .hero-mobile{min-height:100vh;padding:120px 0 60px}
+    </style>
+    
+    <!-- Stylesheets com carregamento assíncrono -->
+    <link rel="stylesheet" href="./assets/css/style.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="./assets/css/accessibility.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="./assets/css/privacy-popup.css" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="./assets/css/style.css"></noscript>
+    <noscript><link rel="stylesheet" href="./assets/css/accessibility.css"></noscript>
+    <noscript><link rel="stylesheet" href="./assets/css/privacy-popup.css"></noscript>
     
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="./assets/images/favicon.svg">
@@ -315,7 +334,7 @@
                         <div class="service__image">
                             <picture>
                                 <source srcset="./assets/images/consultoria.webp" type="image/webp">
-                                <img src="./assets/images/consultoria.jpg" alt="Consultoria estratégica profissional em ambiente de negócios" width="400" height="300" loading="lazy" decoding="async">
+                                <img src="./assets/images/consultoria.jpg" alt="Consultoria estratégica profissional em ambiente de negócios" width="400" height="300" loading="lazy" decoding="async" fetchpriority="low">
                             </picture>
                         </div>
                         <h3 class="service-card__title">Consultoria Estratégica</h3>
@@ -795,8 +814,18 @@
         </svg>
     </a>
 
-    <!-- Scripts -->
-    <script src="./assets/js/privacy-popup.js"></script>
-    <script defer src="./assets/js/main.js"></script>
+    <!-- Scripts otimizados -->
+    <script>
+        // Preload critical scripts
+        const script1 = document.createElement('script');
+        script1.src = './assets/js/main.js';
+        script1.async = true;
+        document.head.appendChild(script1);
+        
+        const script2 = document.createElement('script');
+        script2.src = './assets/js/privacy-popup.js';
+        script2.async = true;
+        document.head.appendChild(script2);
+    </script>
 </body>
 </html>

@@ -96,7 +96,7 @@
     link.addEventListener('click', function(e) {
       const href = this.getAttribute('href');
       
-      // Se for link âncora (#), faz smooth scroll e fecha menu
+      // Se for link âncora (#), faz smooth scroll sem atualizar URL e fecha menu
       if (href.startsWith('#')) {
         e.preventDefault();
         const target = document.querySelector(href);
@@ -116,6 +116,24 @@
       } else {
         // Se for link normal, apenas fecha o menu
         closeMenu();
+      }
+    });
+  });
+
+  // Intercepta todos os links âncora na página para evitar hash na URL
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+      const href = this.getAttribute('href');
+      const target = document.querySelector(href);
+      
+      if (target) {
+        e.preventDefault();
+        const offset = parseInt(getComputedStyle(document.documentElement)
+          .getPropertyValue('--header-h')) || 72;
+        window.scrollTo({
+          top: target.getBoundingClientRect().top + window.scrollY - offset,
+          behavior: 'smooth'
+        });
       }
     });
   });
